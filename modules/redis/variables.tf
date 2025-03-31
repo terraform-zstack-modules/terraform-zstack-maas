@@ -24,12 +24,11 @@ EOF
   default     = {}
 }
 
-
 # 应用配置变量
 variable "image_name" {
   description = "Name for the log server image"
   type        = string
-  default     = "maas-by-terraform"
+  default     = "redis-by-terraform"
 }
 
 variable "image_url" {
@@ -47,7 +46,7 @@ variable "backup_storage_name" {
 variable "instance_name" {
   description = "Name for the cas server instance"
   type        = string
-  default     = "maas"
+  default     = "redis"
 }
 
 variable "l3_network_name" {
@@ -65,45 +64,37 @@ variable "instance_offering_name" {
 variable "ssh_user" {
   description = "SSH username for remote access"
   type        = string
-  default     = "root"
+  default     = "zstack"
 }
 
 variable "ssh_password" {
   description = "SSH password for remote access"
   type        = string
-  default     = "password"
+  default     = "ZStack@123"
   sensitive   = true
 }
 
-variable "model_center_port" {
-  description = "Model center management port"
-  type        = number
-  default     = 5000
+variable "non_production" {
+  description = "Whether to run in non-production mode"
+  type        = bool
+  default     = false
 }
 
-variable "backend_endpoint" {
-  description = "Backend endpoint"
+variable "redis_password" {
+  description = "Redis password"
   type        = string
+  default     = "zstack.redis.password"
+  sensitive   = true
 }
 
-variable "s3_backend_access_key" {
-  description = "Backend access key"
+variable "architecture" {
+  description = <<-EOF
+Specify the deployment architecture, select from standalone or replication.
+EOF
   type        = string
-}
-
-variable "s3_backend_secret_key" {
-  description = "Backend secret key"
-  type        = string
-}
-
-
-variable "backend_type" {
-  description = "Backend type"
-  type        = string
+  default     = "replication"
   validation {
-    condition     = contains(["nfs", "s3"], var.backend_type)
-    error_message = "Backend type must be 'nfs' or 's3'."
+    condition     = var.architecture == "" || contains(["standalone", "replication"], var.architecture)
+    error_message = "Invalid architecture"
   }
 }
-
-

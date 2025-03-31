@@ -32,17 +32,28 @@ output "walrus_resource_id" {
   description = "The id of resource where deployed in Walrus."
 }
 
-#
-# Submodule output
-#
 
+# 输出Redis集群信息
 output "redis_primary_ip" {
-  value       = module.redis.redis_primary_ip
-  description = "The message from redis."
+  value = local.primary_ip
+  description = "Redis主节点IP地址"
 }
 
-output "redis_all_node_ips" {
-  value       = module.redis.all_node_ips
-  description = "The message from redis."
+output "redis_replica_ips" {
+  value = local.replica_ips
+  description = "Redis从节点IP地址列表"
 }
 
+output "all_node_ips" {
+  value = local.node_ips
+  description = "所有Redis节点IP地址"
+}
+
+output "deployment_mode" {
+  value = var.architecture
+  description = "Redis部署模式 (standalone 或 replication)"
+}
+
+output "redis_password" {
+ value = local.redis_password
+}

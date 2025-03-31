@@ -5,17 +5,12 @@ components:
   schemas:
     variables:
       type: object
-      required:
-      - backend_endpoint
-      - backend_type
-      - s3_backend_access_key
-      - s3_backend_secret_key
       properties:
         image_name:
           title: Image Name
           type: string
           description: Name for the log server image
-          default: maas-by-terraform
+          default: redis-by-terraform
           x-walrus-ui:
             group: Basic
             order: 2
@@ -39,7 +34,7 @@ components:
           title: Instance Name
           type: string
           description: Name for the cas server instance
-          default: maas
+          default: redis
           x-walrus-ui:
             group: Basic
             order: 5
@@ -77,42 +72,26 @@ components:
           x-walrus-ui:
             group: Basic
             order: 9
-        model_center_port:
-          title: Model Center Port
-          type: number
-          description: Model center management port
-          default: 5000
+        non_production:
+          title: Non Production
+          type: boolean
+          description: Whether to run in non-production mode
+          default: false
           x-walrus-ui:
             group: Basic
             order: 10
-        backend_endpoint:
-          title: Backend Endpoint
+        architecture:
+          title: Architecture
           type: string
-          description: Backend endpoint
+          description: |
+            Specify the deployment architecture, select from standalone or replication.
+          default: replication
+          enum:
+          - standalone
+          - replication
           x-walrus-ui:
             group: Basic
             order: 11
-        s3_backend_access_key:
-          title: S3 Backend Access Key
-          type: string
-          description: Backend access key
-          x-walrus-ui:
-            group: Basic
-            order: 12
-        s3_backend_secret_key:
-          title: S3 Backend Secret Key
-          type: string
-          description: Backend secret key
-          x-walrus-ui:
-            group: Basic
-            order: 13
-        backend_type:
-          title: Backend Type
-          type: string
-          description: Backend type
-          x-walrus-ui:
-            group: Basic
-            order: 14
       x-walrus-ui:
         groupOrder:
         - Basic
